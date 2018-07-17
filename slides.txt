@@ -1,0 +1,640 @@
+                                      .::.
+                                    .;:**'
+                                    `
+        .:XHHHHk.              db.   .;;.     dH  MX
+      oMMMMMMMMMMM       ~MM  dMMP :MMMMMR   MMM  MR      ~MRMN
+      QMMMMMb  "MMX       MMMMMMP !MX' :M~   MMM MMM  .oo. XMMM 'MMM
+        `MMMM.  )M> :X!Hk. MMMM   XMM.o"  .  MMMMMMM X?XMMM MMM>!MMP
+         'MMMb.dM! XM M'?M MMMMMX.`MMMMMMMM~ MM MMM XM `" MX MMXXMM
+          ~MMMMM~ XMM. .XM XM`"MMMb.~*?**~ .MMX M t MMbooMM XMMMMMP
+           ?MMM>  YMMMMMM! MM   `?MMRb.    `"""   !L"MMMMM XM IMMM
+            MMMX   "MMMM"  MM       ~%:           !Mh.""" dMI IMMP
+            'MMM.                                             IMX
+             ~M!M                                             IMP
+       _                     _        ___     _
+      | |   _   _ _ __   ___| |__    ( _ )   | |    ___  __ _ _ __ _ __
+      | |  | | | | '_ \ / __| '_ \   / _ \/\ | |   / _ \/ _` | '__| '_ \
+      | |__| |_| | | | | (__| | | | | (_>  < | |__|  __/ (_| | |  | | | |
+      |_____\__,_|_| |_|\___|_| |_|  \___/\/ |_____\___|\__,_|_|  |_| |_|
+
+
+                              ███▄           ▄███
+                              ██░░▀▄▄▄▄▄▄▄▄▄▀░░██
+                               ▀▄░░░▀░░░░░▀░░░▄▀
+                                 ▌░▄▄░░░▄▄░▐▀▀
+                                ▐░░█▄░░░▄█░░▌▄▄▀▀███
+                                ▌▄▄▀▀░▄░▀▀▄▄▐░░░░░██
+                             ▄▀▀▐▀▀░▄▄▄▄▄░▀▀▌▄▄▄░░░█
+                             █░░░▀▄░▀▄▄▄▀░▄▀░░░░█▀▀▀
+                              ▀▄░░▀░░░░░░░▀░░░▄█▀
+                                █░░░░░░░░░░░▄▀▄░▀▄
+                                █░░░░░░░░░▄▀█░░█░░█
+                                █░░░░░░░░░░░█▄█░░▄▀
+                                █░░░░░░░░░░░████▀
+                                ▀▄▄▀▀▄▄▀▀▄▄▄█▀
+
+
+================================================================================
+
+
+  Scope of this Lunch & Learn:
+
+    The three most famous glitches of the first generation of Pokémon games
+
+  Timeline of the games development:
+
+    * 6 years of development with GameBoy hardware capacity being a big limitation.
+      Many hacks had to be done
+
+    * Green & Red officially released in Japan in February 1996, when the
+      popularity of the GameBoy was already dropping, and the holiday season
+      deadline had been missed
+
+    * Internationalisation of the games took 2 additional years because of non
+      kanji text taking up more space
+
+    * Over 50 million dollars were spent to promote the games overseas, while
+      Nintendo feared the series would not be appealing to American children
+
+    * Released as Red and Blue in North America, Europe, and Australia starting
+      from 1998
+
+
+================================================================================
+
+  Disclaimers
+
+    * This L&L assumes you are at least familiar with basic game dynamics
+
+    * It is intended mostly for a technical audience, but you should be able to
+      follow if you know the games
+
+    * The code shown here is not meant to compile or work.
+      It is just pseudocode meant to represent what's happening under the hood.
+      It is based on a complete disassembly of Pokémon Red & Blue
+      (see resources)
+
+    * Might get a bit complex. Please ask questions and give feedback! :)
+
+
+================================================================================
+
+
+          ___  _     _   __  __                ____ _ _ _       _
+         / _ \| | __| | |  \/  | __ _ _ __    / ___| (_) |_ ___| |__
+        | | | | |/ _` | | |\/| |/ _` | '_ \  | |  _| | | __/ __| '_ \
+        | |_| | | (_| | | |  | | (_| | | | | | |_| | | | || (__| | | |
+         \___/|_|\__,_| |_|  |_|\__,_|_| |_|  \____|_|_|\__\___|_| |_|
+
+
+                              ¸¸¸¸¸¸¸¸¸¸¸¸
+                              ;«±µbu14÷3»;
+                              ;91÷øþÿ€ƒ†n;
+                              ;op‡–š¢£¤¥2;
+                              ;9ð÷14cd30#;
+                              ;$ƒ†‡a7dðk¤;
+                              ;y÷»ðau÷øþÿ;
+                              ;zLT¢287o4g;
+                              ;€ƒak24ueƒ†;
+                              ;d‡s34hx¥§«;
+                              ;þT?2sd»ð÷ø;¸¸¸¸¸¸¸¸¸¸
+                              ;xyzLT±µge»9ð÷14cd30#;
+                              ;ð÷ø9as0X2191÷øþÿ€ƒ†n;
+                              ;Z?24€0ƒ76†«±µbu14÷3»;
+                              ;bn‡3–š9¢£¤op‡–š¢£¤¥2;
+                              ;sd¥§k«€÷øþ$ƒ†‡a7dðk¤;
+                              ;ð÷ø9as0X2191÷øþÿ€ƒ†n;
+                              ;s±µbu14÷3»y÷»ðau÷øþÿ;
+                              ;xyzLT±µge»9ð÷14cd30#;
+                              ¹²²¹²¹¹²¹²¹¹¹²²²¹¹²¹²²
+
+
+================================================================================
+
+  What it allows:
+
+    * Initiate a battle with any
+
+      * Glitch Pokémon (most famously MissingNo. )
+
+      * Pokémon
+
+      * Pokémon with a level higher than 100, up to 255
+
+      * Trainer
+
+    * Multiply 6th item in your bag x99
+
+================================================================================
+
+  How does it work:
+
+    * When OLD MAN in Viridian City teaches you how to catch Pokémon,
+      the game has to swap your name with his in battle
+
+    * To do so, it temporarily stores the player name in the wild Pokémon data
+
+    * Wild Pokémon data is not changed until walking into a location where
+      wild Pokémon can be encountered (routes and caves)
+
+    * Unfortunately, the programmers made coast tiles spawn wild Pokémon, but
+      some of them are in a city...
+
+================================================================================
+
+
+  Memory state
+
+   Before battle:
+   +----------------------+         +----------------------+
+   | Trainer name data    |         | Wild Pokémon data    |
+   +----------------------+         +----------------------+
+   | B  L  U  E           |         |                      |
+   | 81 8B 94 84          |         |                      |
+   |                      |         |                      |
+   +----------------------+         +----------------------+
+
+   During battle:
+   +----------------------+         +----------------------+
+   | Trainer name data    |         | Wild Pokémon data    |
+   +----------------------+         +----------------------+
+   | O  L  D     M  A  N  |         | B  L  U  E           |
+   | 8E 8B 83 7F 8C 80 8D |         | 81 8B 94 84          |
+   |                      |         |                      |
+   +----------------------+         +----------------------+
+
+   After battle:
+   +----------------------+         +----------------------+
+   | Trainer name data    |         | Wild Pokémon data    |
+   +----------------------+         +----------------------+
+   | B  L  U  E           |         | B  L  U  E           |
+   | 81 8B 94 84          |         | 81 8B 94 84          |
+   |                      |         |                      |
+   +----------------------+         +----------------------+
+
+
+================================================================================
+
+  Example: Wild Pokémon data in route 1
+
+    +-----------------+--------------------+-------+---------------+
+    | Memory Location | Function           | Value | Pokémon/Level |
+    +-----------------+--------------------+-------+---------------+
+    | D888            | Level of Pokémon 1 |  03   | 3             |
+    | D889            | ID of Pokémon 1    |  24   | Pidgey        |
+    +-----------------+--------------------+-------+---------------+
+    | D88A            | Level of Pokémon 2 |  03   | 3             |
+    | D88B            | ID of Pokémon 2    |  A5   | Rattata       |
+    +-----------------+--------------------+-------+---------------+
+    | D88C            | Level of Pokémon 3 |  03   | 3             |
+    | D88D            | ID of Pokémon 3    |  A5   | Rattata       |
+    +-----------------+--------------------+-------+---------------+
+    | D88E            | Level of Pokémon 4 |       |               |
+    | D88F            | ID of Pokémon 4    |       |               |
+    +-----------------+--------------------+-------+---------------+
+    | D890            | Level of Pokémon 5 |       |               |
+    | D891            | ID of Pokémon 5    |       |               |
+    +-----------------+--------------------+-------+---------------+
+    | D892            | Level of Pokémon 6 |       |               |
+    | D893            | ID of Pokémon 6    |       |               |
+    +-----------------+--------------------+-------+---------------+
+    | D894            | Level of Pokémon 7 |       |               |
+    | D895            | ID of Pokémon 7    |       |               |
+    +-----------------+--------------------+-------+---------------+
+    | D896            | Level of Pokémon 8 |       |               |
+    | D897            | ID of Pokémon 8    |       |               |
+    +-----------------+--------------------+-------+---------------+
+    | D898            | Level of Pokémon 9 |       |               |
+    | D899            | ID of Pokémon 9    |       |               |
+    +-----------------+--------------------+-------+---------------+
+
+
+================================================================================
+
+
+  What happens when the player name is stored:
+
+  * First letter is ignored
+
+  * The rest, letter by letter, looks like this:
+
+    +-----------------+--------------------+-------+--------+---------------+
+    | Memory Location | Function           | Value | Letter | Pokémon/Level |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D888            | Level of Pokémon 1 |  8B   |   L    | 139           |
+    | D889            | ID of Pokémon 1    |  94   |   U    | Abra          |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D88A            | Level of Pokémon 2 |  84   |   E    | 132           |
+    | D88B            | ID of Pokémon 2    |  50   |        | MissingNo.    |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D88C            | Level of Pokémon 3 |  00   |        |               |
+    | D88D            | ID of Pokémon 3    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D88E            | Level of Pokémon 4 |       |        |               |
+    | D88F            | ID of Pokémon 4    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D890            | Level of Pokémon 5 |       |        |               |
+    | D891            | ID of Pokémon 5    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D892            | Level of Pokémon 6 |       |        |               |
+    | D893            | ID of Pokémon 6    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D894            | Level of Pokémon 7 |       |        |               |
+    | D895            | ID of Pokémon 7    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D896            | Level of Pokémon 8 |       |        |               |
+    | D897            | ID of Pokémon 8    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+    | D898            | Level of Pokémon 9 |       |        |               |
+    | D899            | ID of Pokémon 9    |       |        |               |
+    +-----------------+--------------------+-------+--------+---------------+
+
+================================================================================
+
+
+           __  __                  ____ _ _ _       _
+          |  \/  | _____      __  / ___| (_) |_ ___| |__
+          | |\/| |/ _ \ \ /\ / / | |  _| | | __/ __| '_ \
+          | |  | |  __/\ V  V /  | |_| | | | || (__| | | |
+          |_|  |_|\___| \_/\_/    \____|_|_|\__\___|_| |_|
+
+                                              /,..**/@@
+                                            /.*@,    %%/@
+                                          %..@          %/@
+                %(       //              %**@            %/@
+               (,*....#..,*@             %*%             ((&,
+               %.........../(             %*&             %*@
+              %....*%. *....@              %*@            %*@
+              @*...% #  ...%    (.         %*@           %/*@
+               %*........***/@%.*&        %*%            %*@
+                #..%@@%/****...(@&       %**@           %*@
+                  (%***.........%,      %//@       %%%%**@
+                .#***@@%*.........*@%%///@    //,..****@
+                  .     %...../,...*/&,,    %*....*#&.
+                       %.%***.%*,.***@
+                        %..@/**(#***/%@
+                         %@***/&, @@///%%
+                            @%/(%.  %*...%
+                             %//&,    %....%
+                               @,     %/.//@
+                                        (%%
+
+================================================================================
+
+  What it allows:
+
+    Initiate a battle with any
+
+      * Pokémon (most famously the unobtainable Mew)
+
+      * Glitch Pokémon, including MissingNo.
+
+      * Trainer
+
+================================================================================
+
+  How does it work:
+
+    * The game takes one frame to load the sprites in the correct position
+
+    * Use this frame to open the START menu really quickly after a trainer
+      engages us and fly away, avoiding battle
+
+    * This leaves the route we left in an unstable state, where it is looping to
+      initiate a battle
+
+    * Complete any battle in another route. The battle engine will override
+      the currently engaging trainer ID with the enemy special stat, because
+      memory is shared between battle and overworld engine
+
+    * Return to unstable route. The currently engaging trainer ID has not been
+      overridden, thus will be whatever value the enemy stat was
+
+    * Unstable route will initiate a battle with whatever enemy is indicated
+      by the currently engaging trainer ID
+
+================================================================================
+
+  Memory sharing:
+
+  +------------+-----------------+--------------------+
+  | Address    | Battle Function | Overworld function |
+  +------------+-----------------+--------------------+
+  | ...        | ...             |         ...        |
+  | CD24       | HP stat         |         ???        |
+  | CD25       | HP stat         |         ???        |
+  | CD26       | Attack stat     |         ???        |
+  | CD27       | Attack stat     |         ???        |
+  | CD28       | Defense stat    |         ???        |
+  | CD29       | Defense stat    |         ???        |
+  | CD2A       | Enemy nickname  |         ???        |
+  | CD2B       | Enemy nickname  |         ???        |
+  | CD2C       | Special stat    |         ???        |-----+
+  | CD2D       | Special stat    |       EnemyID      |     |
+  | CD2E       | Attack modifier |     Enemy level    |     +------ Overlap
+  | CD2F       | Attack modifier |         ???        |-----+
+  | CD30       | Defense modifier|         ???        |
+  | ...        | ...             |         ...        |
+  +------------+-----------------+--------------------+
+
+
+================================================================================
+           ____        _         _             _     _
+          |  _ \  ___ | | _____ | | ____ _ ___| |__ (_)_ __ __ _
+          | | | |/ _ \| |/ / _ \| |/ / _` / __| '_ \| | '__/ _` |
+          | |_| | (_) |   < (_) |   < (_| \__ \ | | | | | | (_| |
+          |____/ \___/|_|\_\___/|_|\_\__,_|___/_| |_|_|_|  \__,_|
+
+           ____                      ____ _ _ _       _
+          |  _ \  ___   ___  _ __   / ___| (_) |_ ___| |__
+          | | | |/ _ \ / _ \| '__| | |  _| | | __/ __| '_ \
+          | |_| | (_) | (_) | |    | |_| | | | || (__| | | |
+          |____/ \___/ \___/|_|     \____|_|_|\__\___|_| |_|
+
+                            ____________
+                           |.----------.|
+                           || ___  ___ ||
+                           8||   ||   |||
+                           ||:===::===:||
+                           |||___||___|||
+                           ||          ||
+                           ||        _ ||
+                           ||       (_)||
+                           ||          ||
+                           ||          ||
+                           8|          ||
+                           ||          ||
+                           ||__________||
+                           '------------'
+
+================================================================================
+
+ What it allows:
+
+   * Warp to any location in the Game
+
+   * Beat the game in less than 5 minutes (warp to Hall of Fame)
+
+================================================================================
+
+ How does it work:
+
+   * In the games you can swap items in the bag, Pokémon, moves with each other.
+     To do so, the cursor position of what you selected has to be stored - in
+     order to swap with what's currently under the cursor.
+     The memory address used for that is the same for every menu, and it's
+     reset to 0 when opening another menu.
+
+   * But the programmers forgot to reset the cursor position between bag and
+     Pokémon battle menu
+
+   * Meaning we can swap a Pokémon with a non-existent index.
+     In particular, even we if we have only one Pokémon, we can swap
+     1st and 2nd Pokémon.
+     What will be swapped is actually whatever is in memory at the 2nd index.
+
+   * At the 2nd index of the Pokémon party, there is a terminator value
+     (FF) that signals to the game that the Pokémon party ends.
+
+   * After swap, game doesn't find terminator value anymore, and believes our
+     Pokémon party is huge (hundreds of Pokémon) until it finds an FF again.
+     Those Pokémon are determined by whatever random values are in memory after
+     the usual 6 Pokémon. One of them is always poisoned.
+
+   * Poison effects decrement what the game thinks is HP value of that Pokémon,
+     but is actually a constant used for something else.
+     It's the map ID of the 1st warp point of your location.
+     (e.g. opening a certain door will load the interior map for that building:
+     the door is a warp point, and the map it should load is represented by a
+     map ID)
+
+================================================================================
+
+  Normal swap with "select":
+
+
+          Navigate to    Press "select"   Press "A"      Result:
+              Bag          on Parcel      on Potion    swap 2 with 1
+          +----------+    +----------+   +----------+  +----------+
+          | Bag      |    | Bag      |   | Bag      |  | Bag      |
+          +----------+    +----------+   +----------+  +----------+
+          | Potion   |    | Potion   |   | ► Potion |  | Potion   |
+          | ► Parcel |    | > Parcel |   | > Parcel |  | Parcel   |
+          +----------+    +----------+   +----------+  +----------+
+
+ CC35:     0: no item          2              2         0: no item
+
+
+================================================================================
+
+  Swap across menus:
+
+
+         Press "select"   Start battle     Press "A"       Result:
+            on Parcel,     and go to       on first       swap 2 with 1
+            but exit      Pokémon menu     Pokémon
+          +----------+   +------------+  +------------+  +------------+
+          | Bag      |   | Pokémon    |  | Pokémon    |  | Pokémon    |
+          +----------+   +------------+  +------------+  +------------+
+          | Potion   |   | ► Squirtle |  | ► Squirtle |  | ► ÷»ðau÷øþ |
+          | > Parcel |   |            |  |            |  | Squirtle   |
+          +----------+   +------------+  +------------+  +------------+
+
+ CC35:         2               2               2           0: no item
+
+================================================================================
+
+ Pokémon party ids after swap
+
+  +------------+-------------------------+-------+
+  | Address    | Function                | Value |
+  +------------+-------------------------+-------+
+  | ...        | ...                     |       |
+  | D163       | N. of Pokémon in party  |  01   |
+  | D164       | Id of 1st Pokémon       |  FF   | <- terminator
+  | D165       | Id of 2nd Pokémon       |  B0   | <- game starts looking for
+  | D166       | Id of 3rd Pokémon       |  ??   |    terminator here because
+  | D167       | Id of 4th Pokémon       |  ??   |    party should always have
+  | D168       | Id of 5th Pokémon       |  ??   |    at least 1 Pokémon :(
+  | D169       | Id of 6th Pokémon       |  ??   |
+  | ...        | ...                     |  ??   | <- game keeps looking way
+  +------------+-------------------------+-------+    beyond data reserved for
+                                                      party
+
+================================================================================
+
+  Pokémon party data after swap
+
+          00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+       +--------------------------------------------------+
+  D160 |  00 00 00|01 FF B0 00 00 00 00 00|B0 00 16 00 00 | <- 1st Pokémon
+  D170 |  14 14 2D 0A 2D 00 00 3D 88 00 00 CD 00 2C 00 30 |
+  D180 |  00 41 00 2B 00 32 70 33 23 28 00 00 06 00 16 00 |
+  D190 |  0C 00 0A 00 0D 00 0B|00 00 00 00 00 00 00 00 00 | <- 2nd Pokémon
+  D1A0 |  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |
+  D1B0 |  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |
+  D1C0 |  00 00 00|00 00 00 00 00 00 00 00 00 00 00 00 00 | <- 3rd Pokémon
+  D1D0 |  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |
+  ...
+  D270 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? | <- 7th Pokémon
+  D280 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? |
+  D290 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??|?? | <- 8th Pokémon
+  D2A0 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? |
+  D2B0 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? |
+  D2C0 |  ?? ?? ?? ?? ?? ??|?? ?? ?? ?? ?? ?? ?? ?? ?? ?? | <- 9th Pokémon
+  D2D0 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? |
+  D2E0 |  ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? |
+  ...
+  D330 |  ?? ?? ?? ?? ?? 2̲7̲ ?? ?? ?? ?? 01 ?? ?? ?? ?? ?? |
+                         ^              ^
+                         |              |
+                         |              |
+                         |              +--- This being > 0makes the game think
+                         |                   that the Nth Pokémon is poisoned
+                         |
+                         +---- Game thinks this is the HP of the Nth Pokémon
+                               It's actually map ID of warp point
+
+================================================================================
+
+  Example warp manipulation:
+
+                                                        Blue's House
+      Player                                      (warp point of Pallet town)
+
+      ◝(⁰▿⁰)◜  ----------o----------o-----------o      _________H ,%%&%,
+                4 steps  |  4 steps |  4 steps        /\     _   \%&&%%&%
+                         |          |                /  \___/^\___\%&%%&&
+                         |          |                |  | []   [] |%\Y&%'
+                         |          |                |  |   .-.   | ||
+                         |          |              ~~@._|@@_|||_@@|~||~~~~
+  D335:  39             -1 = 38     -1 = 37
+         Blue's         2nd floor   1st floor
+         House          of Red's    of Red's
+                        House       House
+
+================================================================================
+
+  Get to Hall of Fame:
+
+    Map Id of Lance's Room: 117
+
+    D335 value in Celadon City: 122
+    Map ID of route 7: 18
+
+    Desired value of D335 = 18
+    Current value D335 = 39
+
+    39 - 18 = 21 decrements of D335 = 84 steps (1 decrement every 4 steps)
+
+================================================================================
+
+  Conclusion:
+
+    * At least 17 major, exploitable or game-breaking glitches have been found
+      and documented in Pokémon Red and Blue, the most of all generations of
+      Pokémon Games.
+      This earned them a reputation for "being held together with duct tape".
+      There was never a possibility to release a patch.
+
+    * They set the precedent for what has become a
+      multibillion-dollar franchise
+
+    * The games worldwide sales have reached over 31 million copies sold
+
+    * In 2009, IGN referred to Pokémon Red and Blue as the
+      "Best selling RPG on the Game Boy" and "Best selling RPG of all time"
+
+
+================================================================================
+
+                 _____ _                 _        _
+                 |_   _| |__   __ _ _ __ | | _____| |
+                   | | | '_ \ / _` | '_ \| |/ / __| |
+                   | | | | | | (_| | | | |   <\__ \_|
+                   |_| |_| |_|\__,_|_| |_|_|\_\___(_)
+
+
+                     ."-,.__
+                     `.     `.  ,
+                  .--'  .._,'"-' `.
+                 .    .'         `'
+                 `.   /          ,'
+                   `  '--.   ,-"'
+                    `"`   |  \
+                       -. \, |
+                        `--Y.'      ___.
+                             \     L._, \
+                   _.,        `.   <  <\                _
+                 ,' '           `, `.   | \            ( `
+              ../, `.            `  |    .\`.           \ \_
+             ,' ,..  .           _.,'    ||\l            )  '".
+            , ,'   \           ,'.-.`-._,'  |           .  _._`.
+          ,' /      \ \        `' ' `--/   | \          / /   ..\
+        .'  /        \ .         |\__ - _ ,'` `        / /     `.`.
+        |  '          ..         `-...-"  |  `-'      / /        . `.
+        | /           |L__           |    |          / /          `. `.
+       , /            .   .          |    |         / /             ` `
+      / /          ,. ,`._ `-_       |    |  _   ,-' /               ` \
+     / .           \"`_/. `-_ \_,.  ,'    +-' `-'  _,        ..,-.    \`.
+    .  '         .-f    ,'   `    '.       \__.---'     _   .'   '     \ \
+    ' /          `.'    l     .' /          \..      ,_|/   `.  ,'`     L`
+    |'      _.-""` `.    \ _,'  `            \ `.___`.'"`-.  , |   |    | \
+    ||    ,'      `. `.   '       _,...._        `  |    `/ '  |   '     .|
+    ||  ,'          `. ;.,.---' ,'       `.   `.. `-'  .-' /_ .'    ;_   ||
+    || '              V      / /           `   | `   ,'   ,' '.    !  `. ||
+    ||/            _,-------7 '              . |  `-'    l         /    `||
+    . |          ,' .-   ,' ||               | .-.        `.      .'     ||
+     `'        ,'    `".'    |               |    `.        '. -.'       `'
+              /      ,'      |               |,'    \-.._,.'/'
+              .     /        .               .       \    .''
+            .`.    |         `.             /         :_,'.'
+              \ `...\   _     ,'-.        .'         /_.-'
+               `-.__ `,  `'   .  _.>----''.  _  __  /
+                    .'        /"'          |  "'   '_
+                   /_|.-'\ ,".             '.'`__'-( \
+                     / ,"'"\,'               `/  `-.|"
+
+ Resources:
+  |
+  +- Disassembly of Red & Blue
+  |  https://github.com/pret/pokered
+  |
+  +- Pokémon Red & Blue RAM map
+  |  https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map
+  |
+  +- List of Pokémon/Trainers by index number in gen 1
+  |   https://glitchcity.info/wiki/The_Big_HEX_List
+  |
+  |
+  +- Old Man Glitch
+  |  |
+  |  +- Old Man Glitch on Bulbapedia
+  |  |  https://bulbapedia.bulbagarden.net/wiki/Old_man_glitch
+  |  |
+  |  +- Old Man Glitch on GlitchCity
+  |  |  https://glitchcity.info/wiki/Old_man_trick
+  |  |
+  |  +- Old Man name generator
+  |     https://web.archive.org/web/20071226115844/http://glitchcity.info/misc/namegen2
+  |
+  |
+  +- Mew Glitch
+  |  |
+  |  +- Mew Glitch on Bulbapedia
+  |  |  https://bulbapedia.bulbagarden.net/wiki/Mew_glitch
+  |  |
+  |  +- Trainer escape glitch guide
+  |  |  https://glitchcity.info/wiki/Trainer_escape_glitch
+  |  |
+  |  +- Mew Glitch map
+  |     http://puu.sh/257S
+  |
+  |
+  +- Dokokashira Door Glitch
+    |
+    +- Dokokashira Door Glitch on Bulbapedia
+    |  https://bulbapedia.bulbagarden.net/wiki/Dokokashira_door_glitch
+    |
+    +- Dokokashira Door Glitch on GlitchCity
+       https://glitchcity.info/wiki/Dokokashira_door_glitch
